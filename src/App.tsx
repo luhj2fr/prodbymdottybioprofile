@@ -104,28 +104,33 @@ export default function App() {
       });
 
       const saved = localStorage.getItem(STORAGE_KEY);
+      let currentViews = INITIAL_CONFIG.viewsCount;
+      let parsed: Partial<ProfileConfig> = {};
       if (saved) {
-        const parsed = JSON.parse(saved);
-        const hasSessionVisited = sessionStorage.getItem(SESSION_VIEW_KEY);
-        const currentCount = typeof parsed.viewsCount === 'number' ? parsed.viewsCount : 12;
-        const newCount = hasSessionVisited ? currentCount : currentCount + 1;
-        if (!hasSessionVisited) {
-          sessionStorage.setItem(SESSION_VIEW_KEY, 'true');
-        }
-        return {
-          ...INITIAL_CONFIG,
-          ...parsed,
-          bioText: INITIAL_CONFIG.bioText,
-          tracks: INITIAL_CONFIG.tracks,
-          viewsCount: newCount,
-          requireClickToEnter: false,
-        };
+        try {
+          parsed = JSON.parse(saved);
+          if (typeof parsed.viewsCount === 'number') {
+            currentViews = parsed.viewsCount;
+          }
+        } catch (e) {}
       }
+      const newCount = currentViews + 1;
+      const initial: ProfileConfig = {
+        ...INITIAL_CONFIG,
+        ...parsed,
+        bioText: INITIAL_CONFIG.bioText,
+        tracks: INITIAL_CONFIG.tracks,
+        viewsCount: newCount,
+        requireClickToEnter: false,
+      };
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
+      } catch (e) {}
+      return initial;
     } catch (e) {
       console.warn('LocalStorage load error:', e);
     }
-    sessionStorage.setItem(SESSION_VIEW_KEY, 'true');
-    return INITIAL_CONFIG;
+    return { ...INITIAL_CONFIG, viewsCount: INITIAL_CONFIG.viewsCount + 1 };
   });
 
   const [isUnlocked, setIsUnlocked] = useState<boolean>(() => {

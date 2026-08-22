@@ -82,13 +82,9 @@ function initStorage() {
     appState.bioText = DEFAULT_CONFIG.bioText;
     appState.avatarUrl = DEFAULT_CONFIG.avatarUrl;
 
-    // Handle view count increment per browser session
-    const hasVisited = sessionStorage.getItem(SESSION_VIEW_KEY);
-    if (!hasVisited) {
-      appState.viewsCount = (appState.viewsCount || 12) + 1;
-      sessionStorage.setItem(SESSION_VIEW_KEY, 'true');
-      saveState();
-    }
+    // Increment view count EVERY time the page is loaded/viewed
+    appState.viewsCount = (Number(appState.viewsCount) || 12) + 1;
+    saveState();
 
     // Check if owner was unlocked in this session
     appState.isUnlocked = sessionStorage.getItem('prodbymdotty_owner_unlocked') === 'true';
