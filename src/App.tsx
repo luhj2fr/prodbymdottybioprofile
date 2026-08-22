@@ -87,7 +87,7 @@ const INITIAL_CONFIG: ProfileConfig = {
 
   badges: [
     { id: 'b1', text: 'Producer', icon: 'sparkles' },
-    { id: 'b2', text: '808 Specialist', icon: 'flame' },
+    { id: 'b2', text: 'Engineer', icon: 'computer' },
   ],
 
   requireClickToEnter: false,

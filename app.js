@@ -8,22 +8,19 @@ const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v2';
 
 // Procedural Beat Synth Tracks (Plays real beats directly via Web Audio API + custom URL support)
 const DEFAULT_TRACKS = [
-  { id: 't1', title: 'Midnight Drive (Trap Beat)', artist: 'prodbymdotty', duration: 134, bpm: 140, url: '' },
-  { id: 't2', title: '808 Symphony', artist: 'prodbymdotty', duration: 156, bpm: 132, url: '' },
-  { id: 't3', title: 'Euphoria Drill Beat', artist: 'prodbymdotty', duration: 142, bpm: 145, url: '' },
-  { id: 't4', title: 'Nightfall Melody', artist: 'prodbymdotty', duration: 128, bpm: 128, url: '' },
+  { id: 't1', title: '', artist: 'prodbymdotty', duration: 134, bpm: 140, url: '' },
 ];
 
 const DEFAULT_CONFIG = {
   username: 'prodbymdotty',
   titleAnimation: 'subtle-glow',
-  bioText: 'Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more',
-  avatarUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&q=80',
-  backgroundUrl: 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-42173-large.mp4',
+  bioText: '💿 : Merck, Lil Rae, Gravon, Johnny Slime, Duoto, Roddy Treyy, Babyy Bumpstock, Corey Cartel, Lil Moneyy, NSG Feezy, PGF Omerta, TreTooWavy,+ More',
+  avatarUrl: 'https://cdn.discordapp.com/attachments/1441138359266447446/1540575677974052894/content.png?ex=6a8a7468&is=6a8922e8&hm=aa2d054d6948ea744122cb9f006ce5d887a1255da187d0749975fe562d7d81d3&',
+  backgroundUrl: 'https://cdn.discordapp.com/attachments/1455875593383182496/1540576265776398426/image.png?ex=6a8a74f4&is=6a892374&hm=c312d9d88b59b9ad2e0e28e8fe625844c5d3321cc83e858681dab4845294b575&',
   bgBrightness: 0.85,
-  bgBlur: 0,
+  bgBlur: 50,
   viewsCount: 12,
-  adminPin: '1234',
+  adminPin: '011511',
   tracks: DEFAULT_TRACKS,
 };
 
