@@ -8,7 +8,14 @@ const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v2';
 
 // Procedural Beat Synth Tracks (Plays real beats directly via Web Audio API + custom URL support)
 const DEFAULT_TRACKS = [
-  { id: 't1', title: '', artist: 'prodbymdotty', duration: 134, bpm: 140, url: '' },
+  {
+    id: 't1',
+    title: 'Johnny Slime - EBK/Allegations',
+    artist: 'prodbymdotty',
+    duration: 168,
+    bpm: 140,
+    url: 'https://cdn.discordapp.com/attachments/1455875593383182496/1540578126755659849/Johnny_Slime_-_EBKAllegations_Official_Music_Video_shot_by_shotbyvictorr.mp3?ex=6a8a76af&is=6a89252f&hm=d9190bc6e1b5039fb9a82ad78755efb7de2e3bc8b9338b7adf6fac1bf7be7fdf&',
+  },
 ];
 
 const DEFAULT_CONFIG = {
@@ -49,6 +56,10 @@ function initStorage() {
     if (saved) {
       const parsed = JSON.parse(saved);
       appState = { ...appState, ...parsed };
+      // Ensure if tracks were from an older schema or empty title, fallback to default track
+      if (!appState.tracks || appState.tracks.length === 0 || !appState.tracks[0].title) {
+        appState.tracks = DEFAULT_TRACKS;
+      }
     }
 
     // Handle view count increment per browser session
@@ -484,21 +495,6 @@ function renderProfile() {
       bgVid.src = appState.backgroundUrl;
     }
   }
-
-  // Owner lock status
-  const iconLock = document.getElementById('icon-lock');
-  const iconUnlock = document.getElementById('icon-unlock');
-  const btnCustomizer = document.getElementById('btn-open-customizer');
-
-  if (appState.isUnlocked) {
-    if (iconLock) iconLock.classList.add('hidden');
-    if (iconUnlock) iconUnlock.classList.remove('hidden');
-    if (btnCustomizer) btnCustomizer.classList.remove('hidden');
-  } else {
-    if (iconLock) iconLock.classList.remove('hidden');
-    if (iconUnlock) iconUnlock.classList.add('hidden');
-    if (btnCustomizer) btnCustomizer.classList.add('hidden');
-  }
 }
 
 function renderAll() {
@@ -525,6 +521,36 @@ function showToast(message) {
 
 // Setup Event Listeners
 function setupEventListeners() {
+  // HTML5 Audio element event listeners
+  const audioEl = document.getElementById('main-audio');
+  if (audioEl) {
+    audioEl.addEventListener('timeupdate', () => {
+      appState.currentTime = audioEl.currentTime;
+      updateProgressUI();
+    });
+    audioEl.addEventListener('loadedmetadata', () => {
+      if (audioEl.duration && !isNaN(audioEl.duration)) {
+        const track = appState.tracks[appState.currentTrackIndex];
+        if (track) {
+          track.duration = Math.round(audioEl.duration);
+          renderTrackInfo();
+        }
+      }
+    });
+    audioEl.addEventListener('ended', () => {
+      if (appState.loopMode === 'one') {
+        audioEl.currentTime = 0;
+        audioEl.play().catch(() => {});
+      } else if (appState.loopMode === 'all') {
+        handleNextTrack();
+      } else {
+        pauseTrack();
+        appState.currentTime = 0;
+        updateProgressUI();
+      }
+    });
+  }
+
   // Volume mute and slider
   const btnVol = document.getElementById('btn-volume-toggle');
   const volSlider = document.getElementById('volume-slider');
@@ -533,6 +559,7 @@ function setupEventListeners() {
 
   btnVol.addEventListener('click', () => {
     appState.isMuted = !appState.isMuted;
+    if (audioEl) audioEl.muted = appState.isMuted;
     if (appState.isMuted) {
       iconVolHigh.classList.add('hidden');
       iconVolMuted.classList.remove('hidden');
@@ -545,6 +572,10 @@ function setupEventListeners() {
   volSlider.addEventListener('input', (e) => {
     appState.volume = parseFloat(e.target.value);
     appState.isMuted = appState.volume === 0;
+    if (audioEl) {
+      audioEl.volume = appState.volume;
+      audioEl.muted = appState.isMuted;
+    }
     if (appState.isMuted) {
       iconVolHigh.classList.add('hidden');
       iconVolMuted.classList.remove('hidden');
@@ -591,183 +622,19 @@ function setupEventListeners() {
     const ratio = Math.max(0, Math.min(1, clickX / rect.width));
     const track = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
     appState.currentTime = ratio * (track.duration || 134);
+    if (track.url && audioEl) {
+      audioEl.currentTime = appState.currentTime;
+    }
     updateProgressUI();
   });
 
   // Discord Copy
   document.getElementById('btn-discord').addEventListener('click', () => {
-    navigator.clipboard.writeText('prodbymdotty').then(() => {
-      showToast('Discord Tag (prodbymdotty) copied to clipboard!');
+    navigator.clipboard.writeText('prodbymdottyy2').then(() => {
+      showToast('Discord Tag (prodbymdottyy2) copied to clipboard!');
     }).catch(() => {
-      showToast('Discord: prodbymdotty');
+      showToast('Discord: prodbymdottyy2');
     });
-  });
-
-  // Owner Auth PIN Modal
-  const modalAuth = document.getElementById('modal-auth');
-  const lockedView = document.getElementById('auth-locked-view');
-  const unlockedView = document.getElementById('auth-unlocked-view');
-  const authErr = document.getElementById('auth-error-msg');
-  const pinInput = document.getElementById('input-owner-pin');
-
-  function openAuthModal() {
-    modalAuth.classList.remove('hidden');
-    modalAuth.classList.add('flex');
-    authErr.classList.add('hidden');
-    pinInput.value = '';
-
-    if (appState.isUnlocked) {
-      lockedView.classList.add('hidden');
-      unlockedView.classList.remove('hidden');
-    } else {
-      lockedView.classList.remove('hidden');
-      unlockedView.classList.add('hidden');
-      setTimeout(() => pinInput.focus(), 50);
-    }
-  }
-
-  function closeAuthModal() {
-    modalAuth.classList.add('hidden');
-    modalAuth.classList.remove('flex');
-  }
-
-  document.getElementById('btn-owner-auth').addEventListener('click', openAuthModal);
-  document.getElementById('btn-close-auth').addEventListener('click', closeAuthModal);
-  document.getElementById('btn-cancel-auth').addEventListener('click', closeAuthModal);
-
-  document.getElementById('btn-submit-pin').addEventListener('click', () => {
-    const entered = pinInput.value.trim();
-    const correctPin = (appState.adminPin || '1234').trim();
-
-    if (entered === correctPin || entered === '1234') {
-      appState.isUnlocked = true;
-      sessionStorage.setItem('prodbymdotty_owner_unlocked', 'true');
-      renderProfile();
-      closeAuthModal();
-      showToast('Owner mode unlocked! You can now customize the page.');
-    } else {
-      authErr.classList.remove('hidden');
-    }
-  });
-
-  document.getElementById('btn-relock').addEventListener('click', () => {
-    appState.isUnlocked = false;
-    sessionStorage.removeItem('prodbymdotty_owner_unlocked');
-    renderProfile();
-    closeAuthModal();
-    showToast('Page locked for visitors.');
-  });
-
-  document.getElementById('btn-go-customize').addEventListener('click', () => {
-    closeAuthModal();
-    openCustomizerModal();
-  });
-
-  // Customizer Modal
-  const modalCustomizer = document.getElementById('modal-customizer');
-
-  function openCustomizerModal() {
-    if (!appState.isUnlocked) {
-      openAuthModal();
-      return;
-    }
-    // Populate form fields
-    document.getElementById('cfg-username').value = appState.username;
-    document.getElementById('cfg-title-anim').value = appState.titleAnimation;
-    document.getElementById('cfg-bg-url').value = appState.backgroundUrl;
-    document.getElementById('cfg-bg-brightness').value = appState.bgBrightness;
-    document.getElementById('cfg-bg-blur').value = appState.bgBlur;
-    document.getElementById('cfg-avatar-url').value = appState.avatarUrl;
-    document.getElementById('cfg-bio').value = appState.bioText;
-    document.getElementById('cfg-admin-pin').value = appState.adminPin || '1234';
-    document.getElementById('cfg-views-count').value = appState.viewsCount;
-
-    modalCustomizer.classList.remove('hidden');
-    modalCustomizer.classList.add('flex');
-  }
-
-  function closeCustomizerModal() {
-    modalCustomizer.classList.add('hidden');
-    modalCustomizer.classList.remove('flex');
-  }
-
-  document.getElementById('btn-open-customizer').addEventListener('click', openCustomizerModal);
-  document.getElementById('avatar-container').addEventListener('click', () => {
-    if (appState.isUnlocked) openCustomizerModal();
-    else openAuthModal();
-  });
-  document.getElementById('btn-close-customizer').addEventListener('click', closeCustomizerModal);
-
-  // Tabs Switching
-  document.querySelectorAll('.custom-tab-btn').forEach((tabBtn) => {
-    tabBtn.addEventListener('click', (e) => {
-      document.querySelectorAll('.custom-tab-btn').forEach((b) => {
-        b.className = 'custom-tab-btn py-3 px-4 text-white/60 hover:text-white';
-      });
-      e.target.className = 'custom-tab-btn py-3 px-4 text-cyan-300 border-b-2 border-cyan-400 font-bold';
-
-      const targetTabId = e.target.getAttribute('data-tab');
-      document.querySelectorAll('.custom-tab-panel').forEach((p) => p.classList.add('hidden'));
-      document.getElementById(targetTabId).classList.remove('hidden');
-    });
-  });
-
-  // Add Custom Track
-  document.getElementById('btn-add-track').addEventListener('click', () => {
-    const title = document.getElementById('cfg-track-title').value.trim();
-    const url = document.getElementById('cfg-track-url').value.trim();
-
-    if (!title) {
-      alert('Please enter a track title');
-      return;
-    }
-
-    const newTrack = {
-      id: 't_' + Date.now(),
-      title: title,
-      artist: appState.username,
-      duration: 140,
-      bpm: 140,
-      url: url,
-    };
-
-    appState.tracks.unshift(newTrack);
-    appState.currentTrackIndex = 0;
-    saveState();
-    renderTrackInfo();
-    renderPlaylistDrawer();
-    document.getElementById('cfg-track-title').value = '';
-    document.getElementById('cfg-track-url').value = '';
-    showToast(`Added "${title}" to your beat tape!`);
-  });
-
-  // Save Customizer Form
-  document.getElementById('btn-save-customizer').addEventListener('click', () => {
-    appState.username = document.getElementById('cfg-username').value.trim() || 'prodbymdotty';
-    appState.titleAnimation = document.getElementById('cfg-title-anim').value;
-    appState.backgroundUrl = document.getElementById('cfg-bg-url').value.trim();
-    appState.bgBrightness = parseFloat(document.getElementById('cfg-bg-brightness').value);
-    appState.bgBlur = parseInt(document.getElementById('cfg-bg-blur').value, 10);
-    appState.avatarUrl = document.getElementById('cfg-avatar-url').value.trim();
-    appState.bioText = document.getElementById('cfg-bio').value.trim();
-    appState.adminPin = document.getElementById('cfg-admin-pin').value.trim() || '1234';
-    appState.viewsCount = parseInt(document.getElementById('cfg-views-count').value, 10) || appState.viewsCount;
-
-    saveState();
-    renderAll();
-    closeCustomizerModal();
-    showToast('Changes saved successfully!');
-  });
-
-  // Reset Defaults
-  document.getElementById('btn-reset-defaults').addEventListener('click', () => {
-    if (confirm('Reset profile to original producer default settings?')) {
-      appState = { ...DEFAULT_CONFIG, isUnlocked: true };
-      saveState();
-      renderAll();
-      closeCustomizerModal();
-      showToast('Profile restored to defaults.');
-    }
   });
 }
 

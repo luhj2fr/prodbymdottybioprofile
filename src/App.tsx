@@ -17,17 +17,17 @@ const INITIAL_CONFIG: ProfileConfig = {
   fontFamily: "'Syne', sans-serif",
   fontSize: 36,
   accentGlowColor: '#ffffff',
-  bioText: 'Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more',
-  avatarUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&q=80',
+  bioText: '💿 : Merck, Lil Rae, Gravon, Johnny Slime, Duoto, Roddy Treyy, Babyy Bumpstock, Corey Cartel, Lil Moneyy, NSG Feezy, PGF Omerta, TreTooWavy,+ More',
+  avatarUrl: 'https://cdn.discordapp.com/attachments/1441138359266447446/1540575677974052894/content.png?ex=6a8a7468&is=6a8922e8&hm=aa2d054d6948ea744122cb9f006ce5d887a1255da187d0749975fe562d7d81d3&',
   avatarGlow: true,
   viewsCount: 12,
 
   // Background Video matching black and white aerial city nightscape
   backgroundType: 'video',
-  backgroundUrl: BACKGROUND_PRESETS[0].url,
-  backgroundPresetId: BACKGROUND_PRESETS[0].id,
+  backgroundUrl: 'https://cdn.discordapp.com/attachments/1455875593383182496/1540576265776398426/image.png?ex=6a8a74f4&is=6a892374&hm=c312d9d88b59b9ad2e0e28e8fe625844c5d3321cc83e858681dab4845294b575&',
+  backgroundPresetId: 'custom-aerial',
   bgBrightness: 0.85,
-  bgBlur: 0,
+  bgBlur: 50,
   enableScanlines: true,
   enableVignette: true,
   enableNoise: false,
@@ -294,8 +294,8 @@ export default function App() {
       {/* Main Centered Profile & Music Player Card */}
       <ProfileCard
         config={config}
-        isUnlocked={isUnlocked}
-        onUnlockClick={() => setIsAdminAuthOpen(true)}
+        isUnlocked={false}
+        onUnlockClick={() => {}}
         onTrackChange={handleTrackChange}
         onVolumeChange={handleVolumeChange}
         onMuteToggle={handleMuteToggle}
@@ -304,25 +304,6 @@ export default function App() {
         onAddTrack={handleAddTrack}
         onDeleteTrack={handleDeleteTrack}
         onOpenCustomizer={handleOpenCustomizer}
-      />
-
-      {/* Profile & Music Customization Drawer/Modal (Only accessible when unlocked) */}
-      <CustomizerModal
-        isOpen={isCustomizerOpen}
-        onClose={() => setIsCustomizerOpen(false)}
-        config={config}
-        onUpdateConfig={handleUpdateConfig}
-        initialTab={customizerTab}
-        onLockPage={handleLock}
-      />
-
-      {/* Owner PIN Authentication Modal */}
-      <AdminAuthModal
-        isOpen={isAdminAuthOpen}
-        onClose={() => setIsAdminAuthOpen(false)}
-        onUnlock={handleUnlock}
-        isUnlocked={isUnlocked}
-        onLock={handleLock}
       />
     </main>
   );

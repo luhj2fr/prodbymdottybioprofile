@@ -166,7 +166,7 @@
         </div>
       </div>
 
-      <!-- Right Top Tools: Fullscreen + Owner Lock + Customize Button -->
+      <!-- Right Top Tools: Fullscreen -->
       <div class="pointer-events-auto flex items-center gap-2.5">
         <!-- Fullscreen -->
         <button
@@ -177,31 +177,6 @@
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
           </svg>
-        </button>
-
-        <!-- Owner Lock/Unlock -->
-        <button
-          id="btn-owner-auth"
-          class="w-10 h-10 rounded-xl bg-[#0a0a0e]/60 hover:bg-cyan-500/20 backdrop-blur-xl border border-white/15 hover:border-cyan-400/40 text-white/70 hover:text-cyan-300 flex items-center justify-center transition-all shadow-xl active:scale-95"
-          title="Owner Edit Access (PIN: 1234)"
-        >
-          <svg id="icon-lock" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-          </svg>
-          <svg id="icon-unlock" class="w-4 h-4 hidden text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/>
-          </svg>
-        </button>
-
-        <!-- Customize Button (Visible when unlocked) -->
-        <button
-          id="btn-open-customizer"
-          class="hidden flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black font-bold text-xs hover:opacity-95 transition-all shadow-[0_0_20px_rgba(34,211,238,0.35)] active:scale-95"
-        >
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
-          </svg>
-          <span class="hidden sm:inline">Customize</span>
         </button>
       </div>
     </header>
@@ -224,12 +199,12 @@
         </div>
 
         <!-- Circular Avatar with Gradient Ring -->
-        <div id="avatar-container" class="relative mb-4 group cursor-pointer">
-          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden p-[2px] bg-gradient-to-tr from-fuchsia-500 to-cyan-400 relative transition-transform duration-300 group-hover:scale-105 shadow-[0_0_30px_rgba(217,70,239,0.35)]">
+        <div id="avatar-container" class="relative mb-4">
+          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden p-[2px] bg-gradient-to-tr from-fuchsia-500 to-cyan-400 relative shadow-[0_0_30px_rgba(217,70,239,0.35)]">
             <div class="w-full h-full rounded-full overflow-hidden bg-black/80 flex items-center justify-center">
               <img
                 id="avatar-img"
-                src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&q=80"
+                src="https://cdn.discordapp.com/attachments/1441138359266447446/1540575677974052894/content.png?ex=6a8a7468&is=6a8922e8&hm=aa2d054d6948ea744122cb9f006ce5d887a1255da187d0749975fe562d7d81d3&"
                 alt="prodbymdotty"
                 class="w-full h-full object-cover rounded-full"
               />
@@ -346,6 +321,15 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
               </svg>
             </div>
+
+            <div class="min-w-0">
+              <h2 id="current-track-title" class="font-bold text-sm sm:text-base text-white truncate">
+                Johnny Slime - EBK/Allegations
+              </h2>
+              <p id="current-track-artist" class="text-xs text-white/50 truncate font-mono">
+                prodbymdotty
+              </p>
+            </div>
           </div>
 
           <!-- Dynamic Audio Visualizer Canvas -->
@@ -454,181 +438,6 @@
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
       </svg>
       <span id="toast-text">Discord Tag copied to clipboard!</span>
-    </div>
-
-    <!-- OWNER AUTH PIN MODAL -->
-    <div id="modal-auth" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-      <div class="relative w-full max-w-sm rounded-3xl bg-[#0e0e14] border border-white/15 p-6 shadow-2xl text-white">
-        <button id="btn-close-auth" class="absolute top-4 right-4 p-2 text-white/50 hover:text-white rounded-full">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-        </button>
-
-        <div id="auth-locked-view" class="space-y-4">
-          <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 flex items-center justify-center mx-auto shadow-lg">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          </div>
-          <div class="text-center">
-            <h3 class="text-base font-bold text-white">Owner Access Lock</h3>
-            <p class="text-xs text-gray-400 mt-1">Enter your PIN to unlock profile customization.</p>
-          </div>
-          <div class="space-y-2">
-            <input
-              id="input-owner-pin"
-              type="password"
-              placeholder="Enter Owner PIN (e.g. 1234)"
-              class="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/15 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400"
-            />
-            <div id="auth-error-msg" class="hidden text-xs text-rose-400 bg-rose-500/10 px-3 py-1.5 rounded-lg border border-rose-500/20">
-              Incorrect PIN.
-            </div>
-          </div>
-          <div class="flex gap-2 pt-1">
-            <button id="btn-cancel-auth" class="flex-1 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-300">
-              Cancel
-            </button>
-            <button id="btn-submit-pin" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black text-xs font-bold shadow-lg shadow-cyan-500/20">
-              Unlock
-            </button>
-          </div>
-          <p class="text-[11px] text-center text-gray-500 font-mono">
-            Default Owner PIN: <span class="text-cyan-400 font-bold">1234</span>
-          </p>
-        </div>
-
-        <div id="auth-unlocked-view" class="hidden text-center space-y-4 py-2">
-          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-lg">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-          </div>
-          <div>
-            <h3 class="text-base font-bold text-white">Owner Mode Active</h3>
-            <p class="text-xs text-gray-400 mt-1">You have full permission to customize tracks, styling, and info.</p>
-          </div>
-          <div class="flex gap-2 pt-2">
-            <button id="btn-relock" class="flex-1 py-2.5 px-4 rounded-xl bg-white/10 hover:bg-rose-500/20 hover:text-rose-300 border border-white/10 text-xs font-semibold">
-              Lock Page for Visitors
-            </button>
-            <button id="btn-go-customize" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black text-xs font-bold">
-              Open Customizer
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- MAIN CUSTOMIZER DRAWER / MODAL -->
-    <div id="modal-customizer" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-lg">
-      <div class="relative w-full max-w-2xl max-h-[90vh] rounded-3xl bg-[#0c0c12] border border-white/15 shadow-2xl flex flex-col overflow-hidden text-white">
-        
-        <!-- Header -->
-        <div class="flex items-center justify-between p-5 sm:p-6 border-b border-white/10">
-          <div>
-            <h3 class="text-lg font-bold text-white">Profile & Player Customizer</h3>
-            <p class="text-xs text-white/50">Edit typography, background visuals, tracks, and owner settings.</p>
-          </div>
-          <button id="btn-close-customizer" class="p-2 text-white/50 hover:text-white rounded-full">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-          </button>
-        </div>
-
-        <!-- Customizer Tabs Nav -->
-        <div class="flex border-b border-white/10 bg-white/5 overflow-x-auto text-xs font-semibold">
-          <button class="custom-tab-btn py-3 px-4 text-cyan-300 border-b-2 border-cyan-400" data-tab="tab-title">Title Effect</button>
-          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-bg">Background</button>
-          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-audio">Tracks</button>
-          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-profile">Profile & Bio</button>
-          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-security">Owner & Views</button>
-        </div>
-
-        <!-- Tabs Content Body -->
-        <div class="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 text-sm">
-          
-          <!-- TAB 1: Title Effects -->
-          <div id="tab-title" class="custom-tab-panel space-y-4">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Username Text</label>
-              <input id="cfg-username" type="text" value="prodbymdotty" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-syne font-bold">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Animation & Glow Style</label>
-              <select id="cfg-title-anim" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white">
-                <option value="subtle-glow" selected>Subtle Luminous Glow (Simple & Sleek)</option>
-                <option value="smooth-gradient">Smooth Gradient Shimmer (Cyan & Magenta)</option>
-                <option value="minimal-clean">Minimal & Clean</option>
-                <option value="wave-float">Wave Floating</option>
-                <option value="glitch-wavy">Glitch & Wavy</option>
-              </select>
-            </div>
-          </div>
-
-          <!-- TAB 2: Background -->
-          <div id="tab-bg" class="custom-tab-panel hidden space-y-4">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Background Video/Image URL</label>
-              <input id="cfg-bg-url" type="text" value="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-42173-large.mp4" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white text-xs font-mono">
-            </div>
-
-            <div class="grid grid-cols-2 gap-4 pt-2">
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1">Brightness</label>
-                <input id="cfg-bg-brightness" type="range" min="0.2" max="1.2" step="0.05" value="0.85" class="w-full">
-              </div>
-              <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1">Blur</label>
-                <input id="cfg-bg-blur" type="range" min="0" max="15" step="1" value="0" class="w-full">
-              </div>
-            </div>
-          </div>
-
-          <!-- TAB 3: Tracks -->
-          <div id="tab-audio" class="custom-tab-panel hidden space-y-4">
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
-              <p class="text-xs font-bold uppercase tracking-wider text-white">Add Custom Track</p>
-              <input id="cfg-track-title" type="text" placeholder="Track Title (e.g. Gotham Drill)" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-xs text-white">
-              <input id="cfg-track-url" type="text" placeholder="Audio URL (.mp3 or stream)" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-xs text-white font-mono">
-              <button id="btn-add-track" class="w-full py-2 bg-white/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-xl font-bold text-xs">
-                + Add Track to Beat Tape
-              </button>
-            </div>
-          </div>
-
-          <!-- TAB 4: Profile & Bio -->
-          <div id="tab-profile" class="custom-tab-panel hidden space-y-4">
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Avatar Picture URL</label>
-              <input id="cfg-avatar-url" type="text" value="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&q=80" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white text-xs font-mono">
-            </div>
-
-            <div>
-              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Bio Text</label>
-              <textarea id="cfg-bio" rows="3" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white text-xs leading-relaxed">Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more</textarea>
-            </div>
-          </div>
-
-          <!-- TAB 5: Security & Views -->
-          <div id="tab-security" class="custom-tab-panel hidden space-y-4">
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white">Owner Passcode PIN</label>
-              <p class="text-xs text-white/60">Only users with this PIN can unlock editor controls.</p>
-              <input id="cfg-admin-pin" type="text" value="1234" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white font-mono text-sm">
-            </div>
-
-            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
-              <label class="block text-xs font-bold uppercase tracking-wider text-white">Realtime Views Count</label>
-              <p class="text-xs text-white/60">Total profile views automatically increment and sync across tabs.</p>
-              <input id="cfg-views-count" type="number" value="12" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white font-mono text-sm">
-            </div>
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="p-4 sm:p-5 border-t border-white/10 bg-black/40 flex justify-between items-center">
-          <button id="btn-reset-defaults" class="text-xs text-rose-400 hover:underline">Reset Defaults</button>
-          <button id="btn-save-customizer" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black font-bold text-xs shadow-lg shadow-cyan-500/20">
-            Save & Close
-          </button>
-        </div>
-      </div>
     </div>
 
     <!-- Standalone Script for GitHub Pages & Vanilla Execution -->

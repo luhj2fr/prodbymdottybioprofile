@@ -134,7 +134,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
           <SocialIcons links={config.socialLinks} />
         </div>
 
-        {/* Bottom Bar inside card: Real-time View Counter & Owner Quicklink */}
+        {/* Bottom Bar inside card: Real-time View Counter */}
         <div className="w-full flex items-center justify-between text-xs text-white/50 pt-3 border-t border-white/10">
           <div className="flex items-center gap-2 font-mono text-[11px] bg-white/5 px-3 py-1 rounded-full border border-white/10 text-cyan-300/90 shadow-sm">
             <Eye className="w-3.5 h-3.5 text-cyan-400" />
@@ -142,22 +142,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse ml-0.5" title="Realtime synced" />
           </div>
 
-          {isUnlocked ? (
-            <button
-              onClick={() => onOpenCustomizer('title')}
-              className="text-[11px] text-white/60 hover:text-cyan-300 transition-colors flex items-center gap-1.5 group"
-            >
-              <Sparkles className="w-3 h-3 text-fuchsia-400 group-hover:rotate-12 transition-transform" />
-              <span className="group-hover:underline">Customize Title</span>
-            </button>
-          ) : (
-            <button
-              onClick={onUnlockClick}
-              className="text-[11px] text-white/30 hover:text-white/70 transition-colors font-mono"
-            >
-              prodbymdotty
-            </button>
-          )}
+          <span className="text-[11px] text-white/30 font-mono">
+            prodbymdotty
+          </span>
         </div>
       </div>
 

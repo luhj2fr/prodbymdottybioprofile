@@ -3,36 +3,12 @@ import { beatSynth, BeatSynthesizer } from './audioSynth';
 
 export const DEFAULT_TRACKS: Track[] = [
   {
-    id: 'track-300bond',
-    title: '300 Bond',
+    id: 'track-ebk-allegations',
+    title: 'Johnny Slime - EBK/Allegations',
     artist: 'prodbymdotty',
-    src: 'synth:300bond',
-    duration: 135, // 2:15 as shown in screenshot
+    src: 'https://cdn.discordapp.com/attachments/1455875593383182496/1540578126755659849/Johnny_Slime_-_EBKAllegations_Official_Music_Video_shot_by_shotbyvictorr.mp3?ex=6a8a76af&is=6a89252f&hm=d9190bc6e1b5039fb9a82ad78755efb7de2e3bc8b9338b7adf6fac1bf7be7fdf&',
+    duration: 168,
     coverArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&q=80',
-  },
-  {
-    id: 'track-tokyo',
-    title: 'Midnight Tokyo',
-    artist: 'prodbymdotty',
-    src: 'synth:tokyo',
-    duration: 160,
-    coverArt: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=300&q=80',
-  },
-  {
-    id: 'track-shadow',
-    title: 'Shadow Realm 808',
-    artist: 'prodbymdotty',
-    src: 'synth:shadow',
-    duration: 142,
-    coverArt: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=300&q=80',
-  },
-  {
-    id: 'track-cloud9',
-    title: 'Cloud 9 Chill',
-    artist: 'prodbymdotty',
-    src: 'synth:cloud9',
-    duration: 180,
-    coverArt: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=300&q=80',
   },
 ];
 

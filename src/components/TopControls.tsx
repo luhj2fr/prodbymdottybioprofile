@@ -137,40 +137,6 @@ export const TopControls: React.FC<TopControlsProps> = ({
         >
           {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
         </button>
-
-        {/* Owner Lock / Unlock Toggle */}
-        {!previewMode && (
-          isUnlocked ? (
-            <div className="flex items-center gap-1.5">
-              <button
-                id="btn-lock-editor"
-                onClick={onLockClick}
-                className="w-10 h-10 rounded-xl bg-emerald-500/20 hover:bg-rose-500/20 text-emerald-300 hover:text-rose-300 border border-emerald-500/40 hover:border-rose-500/40 flex items-center justify-center transition-all duration-200 shadow-lg active:scale-95"
-                title="Owner Mode Active (Click to Lock Page)"
-              >
-                <Unlock className="w-4 h-4" />
-              </button>
-
-              <button
-                id="btn-open-customizer"
-                onClick={() => onOpenCustomizer()}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black font-bold text-xs hover:opacity-95 transition-all duration-200 shadow-[0_0_20px_rgba(34,211,238,0.35)] active:scale-95"
-              >
-                <Sliders className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Customize</span>
-              </button>
-            </div>
-          ) : (
-            <button
-              id="btn-owner-unlock"
-              onClick={onUnlockClick}
-              className="w-10 h-10 rounded-xl bg-[#0a0a0e]/60 hover:bg-cyan-500/20 backdrop-blur-xl border border-white/15 hover:border-cyan-400/40 text-white/70 hover:text-cyan-300 flex items-center justify-center transition-all duration-200 shadow-xl active:scale-95"
-              title="Owner Login / Edit Access"
-            >
-              <Lock className="w-4 h-4" />
-            </button>
-          )
-        )}
       </div>
     </div>
   );
