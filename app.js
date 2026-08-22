@@ -714,10 +714,17 @@ function setupEventListeners() {
 }
 
 // Initial Boot
-document.addEventListener('DOMContentLoaded', () => {
+function bootApp() {
   initStorage();
   initSync();
   renderAll();
   setupEventListeners();
   startVisualizer();
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootApp);
+} else {
+  bootApp();
+}
+
