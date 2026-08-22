@@ -3,15 +3,15 @@
 // Compatible with GitHub Pages (github.io) with 0 build steps
 // ==========================================
 
-const STORAGE_KEY = 'prodbymdotty_profile_config_v5';
-const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v5';
+const STORAGE_KEY = 'prodbymdotty_profile_config_v6';
+const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v6';
 
 // Procedural Beat Synth Tracks (Plays real beats directly via Web Audio API + custom URL support)
 const DEFAULT_TRACKS = [
   {
     id: 't1',
-    title: 'Johnny Slime - EBK/Allegations',
-    artist: 'prodbymdotty',
+    title: 'EBK/Allegations',
+    artist: 'Johnny Slime',
     duration: 165,
     startOffset: 3,
     bpm: 140,
@@ -63,6 +63,7 @@ function initStorage() {
       'prodbymdotty_profile_config',
       'prodbymdotty_profile_config_v2',
       'prodbymdotty_profile_config_v3',
+      'prodbymdotty_profile_config_v5',
       'mdotty_profile_config',
     ].forEach((k) => {
       try {

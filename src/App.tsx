@@ -8,8 +8,8 @@ import { TopControls } from './components/TopControls';
 import { CustomizerModal } from './components/CustomizerModal';
 import { AdminAuthModal } from './components/AdminAuthModal';
 
-const STORAGE_KEY = 'prodbymdotty_profile_config_v5';
-const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v5';
+const STORAGE_KEY = 'prodbymdotty_profile_config_v6';
+const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v6';
 
 const INITIAL_CONFIG: ProfileConfig = {
   username: 'prodbymdotty',
@@ -95,6 +95,7 @@ export default function App() {
         'prodbymdotty_profile_config',
         'prodbymdotty_profile_config_v2',
         'prodbymdotty_profile_config_v3',
+        'prodbymdotty_profile_config_v5',
         'mdotty_profile_config',
       ].forEach((k) => {
         try {
