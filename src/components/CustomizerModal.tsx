@@ -162,8 +162,8 @@ export const CustomizerModal: React.FC<CustomizerModalProps> = ({
         fontFamily: "'Rubik Glitch', cursive",
         fontSize: 38,
         accentGlowColor: '#ffffff',
-        bioText: 'Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more',
-        avatarUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&q=80',
+        bioText: '💿 : Merck, Lil Rae, Gravon, Johnny Slime, Duoto, Roddy Treyy, Babyy Bumpstock, Corey Cartel, Lil Moneyy, NSG Feezy, PGF Omerta, TreTooWavy,+ More',
+        avatarUrl: 'https://cdn.discordapp.com/attachments/1441138359266447446/1540575677974052894/content.png?ex=6a8a7468&is=6a8922e8&hm=aa2d054d6948ea744122cb9f006ce5d887a1255da187d0749975fe562d7d81d3&',
         backgroundType: 'video',
         backgroundUrl: BACKGROUND_PRESETS[0].url,
         backgroundPresetId: BACKGROUND_PRESETS[0].id,
@@ -729,7 +729,7 @@ export const CustomizerModal: React.FC<CustomizerModalProps> = ({
                   rows={3}
                   value={config.bioText}
                   onChange={(e) => onUpdateConfig({ bioText: e.target.value })}
-                  placeholder="Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more"
+                  placeholder="💿 : Merck, Lil Rae, Gravon, Johnny Slime, Duoto, Roddy Treyy, Babyy Bumpstock, Corey Cartel, Lil Moneyy, NSG Feezy, PGF Omerta, TreTooWavy,+ More"
                   className="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-xs text-white leading-relaxed focus:outline-none focus:border-white/50"
                 />
               </div>
