@@ -1,0 +1,201 @@
+@import "tailwindcss";
+
+@layer utilities {
+  /* CRT Scanlines effect */
+  .scanlines-overlay {
+    background: linear-gradient(
+      rgba(18, 16, 16, 0) 50%, 
+      rgba(0, 0, 0, 0.4) 50%
+    ), linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.01),
+      rgba(0, 0, 255, 0.03)
+    );
+    background-size: 100% 3px, 4px 100%;
+    pointer-events: none;
+  }
+
+  /* Radial Vignette */
+  .vignette-overlay {
+    background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.8) 100%);
+    pointer-events: none;
+  }
+
+  /* Subtle Noise grain */
+  .noise-overlay {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 0);
+    background-size: 4px 4px;
+    pointer-events: none;
+  }
+}
+
+/* Custom Scrollbar for Sleek Dark Glass UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.4);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   TITLE ANIMATION EFFECTS
+   ========================================================================== */
+
+/* 1. Glitch & Wavy Typography (Screenshot match) */
+@keyframes glitchWavy {
+  0% {
+    transform: translate(0, 0) skew(0deg);
+    text-shadow: -1px 0 #00ffff, 1px 0 #ff00ff;
+    clip-path: inset(0 0 0 0);
+  }
+  20% {
+    transform: translate(-1.5px, 1px) skew(-2deg);
+    text-shadow: -2px 0 #00ffff, 2px 0 #ff0055;
+    clip-path: inset(10% 0 35% 0);
+  }
+  40% {
+    transform: translate(1.5px, -1px) skew(1.5deg);
+    text-shadow: 2px 0 #00ffff, -2px 0 #ff00ff;
+    clip-path: inset(45% 0 15% 0);
+  }
+  60% {
+    transform: translate(-1px, 0.5px) skew(-0.5deg);
+    text-shadow: -1px 0 #00ffff, 1px 0 #ff00ff;
+    clip-path: inset(70% 0 5% 0);
+  }
+  80% {
+    transform: translate(1px, -0.5px) skew(1deg);
+    text-shadow: 1.5px 0 #00ffff, -1.5px 0 #ff00ff;
+    clip-path: inset(20% 0 50% 0);
+  }
+  100% {
+    transform: translate(0, 0) skew(0deg);
+    text-shadow: -1px 0 #00ffff, 1px 0 #ff00ff;
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.anim-glitch-wavy {
+  display: inline-block;
+  position: relative;
+  animation: glitchWavy 1.8s infinite ease-in-out alternate;
+}
+
+/* 2. RGB Split Aberration */
+@keyframes rgbSplit {
+  0% {
+    text-shadow: -2px 0 0 rgba(255, 0, 80, 0.75), 2px 0 0 rgba(0, 230, 255, 0.75);
+  }
+  50% {
+    text-shadow: -3px -1px 0 rgba(255, 0, 80, 0.9), 3px 1px 0 rgba(0, 230, 255, 0.9);
+  }
+  100% {
+    text-shadow: -1px 1px 0 rgba(255, 0, 80, 0.75), 1px -1px 0 rgba(0, 230, 255, 0.75);
+  }
+}
+
+.anim-rgb-split {
+  animation: rgbSplit 0.8s infinite alternate ease-in-out;
+}
+
+/* 3. Neon Pulse Glow */
+@keyframes neonPulse {
+  0% {
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.8), 0 0 10px currentColor, 0 0 20px currentColor;
+    opacity: 0.95;
+  }
+  50% {
+    text-shadow: 0 0 8px rgba(255, 255, 255, 1), 0 0 22px currentColor, 0 0 45px currentColor;
+    opacity: 1;
+  }
+  100% {
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.7), 0 0 8px currentColor, 0 0 16px currentColor;
+    opacity: 0.92;
+  }
+}
+
+.anim-neon-pulse {
+  animation: neonPulse 2s infinite ease-in-out;
+}
+
+/* 4. Sine Wave Undulation */
+@keyframes letterFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-5px) rotate(1deg);
+  }
+}
+
+.letter-wave-item {
+  display: inline-block;
+  animation: letterFloat 1.6s ease-in-out infinite;
+}
+
+/* 5. Liquid Chrome Metallic Shimmer */
+@keyframes chromeShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.anim-metallic-shine {
+  background: linear-gradient(
+    90deg, 
+    #a8a8a8 0%, 
+    #ffffff 25%, 
+    #d1d5db 50%, 
+    #ffffff 75%, 
+    #9ca3af 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: chromeShimmer 3s linear infinite;
+}
+
+/* 6. Fire Embers & Heat */
+@keyframes fireHeat {
+  0% {
+    text-shadow: 0 0 4px #ffedd5, 0 -2px 8px #f97316, 0 -6px 14px #ef4444;
+  }
+  50% {
+    text-shadow: 0 0 8px #ffedd5, 0 -4px 14px #f97316, 0 -10px 22px #ef4444;
+  }
+  100% {
+    text-shadow: 0 0 3px #ffedd5, 0 -1px 6px #f97316, 0 -4px 10px #dc2626;
+  }
+}
+
+.anim-fire-embers {
+  animation: fireHeat 1.2s infinite alternate ease-in-out;
+  color: #fff7ed;
+}
+
+/* 7. Retro VCR Jitter */
+@keyframes vcrJitter {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-1px, 0.5px); }
+  30% { transform: translate(1px, -0.5px); }
+  50% { transform: translate(-0.5px, -0.5px); }
+  70% { transform: translate(0.5px, 0.5px); }
+  90% { transform: translate(-1px, 0); }
+}
+
+.anim-retro-vcr {
+  animation: vcrJitter 0.3s steps(2, start) infinite;
+  letter-spacing: 0.08em;
+}

@@ -1,0 +1,68 @@
+import { BackgroundPreset } from '../types';
+
+export const BACKGROUND_PRESETS: BackgroundPreset[] = [
+  {
+    id: 'preset-city-night',
+    name: 'Night City B&W Aerial (Default)',
+    type: 'video',
+    url: 'https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-42866-large.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=600&q=80',
+    description: 'Black and white aerial night skyline with glistening skyscraper lights (matches screenshot).',
+  },
+  {
+    id: 'preset-tokyo-rain',
+    name: 'Tokyo Rain & Neon Lights',
+    type: 'video',
+    url: 'https://assets.mixkit.co/videos/preview/mixkit-blurred-city-lights-in-the-rain-at-night-43093-large.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&q=80',
+    description: 'Moody rainy night with vibrant glowing neon bokeh and reflections.',
+  },
+  {
+    id: 'preset-cyber-highway',
+    name: 'Cyberpunk Night Highway',
+    type: 'video',
+    url: 'https://assets.mixkit.co/videos/preview/mixkit-traffic-lights-at-night-in-the-city-43187-large.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1508739773434-c26b3d09e071?w=600&q=80',
+    description: 'High-speed light trails on city highway under dark skies.',
+  },
+  {
+    id: 'preset-dark-clouds',
+    name: 'Thunder Storm Clouds',
+    type: 'video',
+    url: 'https://assets.mixkit.co/videos/preview/mixkit-clouds-and-blue-sky-2408-large.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=600&q=80',
+    description: 'Slow rolling atmospheric storm clouds with deep contrast.',
+  },
+  {
+    id: 'preset-vhs-glitch',
+    name: 'VHS Retro Static Tape',
+    type: 'video',
+    url: 'https://assets.mixkit.co/videos/preview/mixkit-analog-tv-static-screen-40742-large.mp4',
+    thumbnail: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=80',
+    description: 'Underground tape tracking jitter and analog glitch aesthetics.',
+  },
+  {
+    id: 'preset-image-city-night',
+    name: 'High-Res City Lights Still',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1920&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=600&q=80',
+    description: 'Crisp black and white nighttime skyscraper cityscape.',
+  },
+  {
+    id: 'preset-image-studio',
+    name: 'Music Studio & 808 Gear',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=1920&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=600&q=80',
+    description: 'Dimly lit mixing console and studio monitors in dark aesthetic.',
+  },
+  {
+    id: 'preset-image-anime-night',
+    name: 'Anime Aesthetic Night Window',
+    type: 'image',
+    url: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=1920&q=85',
+    thumbnail: 'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=600&q=80',
+    description: 'Moody lo-fi night aesthetic with starry sky and cityscape view.',
+  },
+];
