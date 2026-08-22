@@ -8,8 +8,8 @@ import { TopControls } from './components/TopControls';
 import { CustomizerModal } from './components/CustomizerModal';
 import { AdminAuthModal } from './components/AdminAuthModal';
 
-const STORAGE_KEY = 'prodbymdotty_profile_config_v2';
-const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v2';
+const STORAGE_KEY = 'prodbymdotty_profile_config_v5';
+const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v5';
 
 const INITIAL_CONFIG: ProfileConfig = {
   username: 'prodbymdotty',
@@ -91,6 +91,17 @@ const INITIAL_CONFIG: ProfileConfig = {
 export default function App() {
   const [config, setConfig] = useState<ProfileConfig>(() => {
     try {
+      [
+        'prodbymdotty_profile_config',
+        'prodbymdotty_profile_config_v2',
+        'prodbymdotty_profile_config_v3',
+        'mdotty_profile_config',
+      ].forEach((k) => {
+        try {
+          localStorage.removeItem(k);
+        } catch (e) {}
+      });
+
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
@@ -100,17 +111,14 @@ export default function App() {
         if (!hasSessionVisited) {
           sessionStorage.setItem(SESSION_VIEW_KEY, 'true');
         }
-        const state: ProfileConfig = {
+        return {
           ...INITIAL_CONFIG,
           ...parsed,
+          bioText: INITIAL_CONFIG.bioText,
           tracks: INITIAL_CONFIG.tracks,
           viewsCount: newCount,
           requireClickToEnter: false,
         };
-        if (!state.bioText || state.bioText.includes('Prod for RoddyTreyy') || state.bioText.includes('Tyree Da GunMan')) {
-          state.bioText = INITIAL_CONFIG.bioText;
-        }
-        return state;
       }
     } catch (e) {
       console.warn('LocalStorage load error:', e);

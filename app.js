@@ -3,8 +3,8 @@
 // Compatible with GitHub Pages (github.io) with 0 build steps
 // ==========================================
 
-const STORAGE_KEY = 'prodbymdotty_profile_config_v2';
-const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v2';
+const STORAGE_KEY = 'prodbymdotty_profile_config_v5';
+const SESSION_VIEW_KEY = 'prodbymdotty_session_visited_v5';
 
 // Procedural Beat Synth Tracks (Plays real beats directly via Web Audio API + custom URL support)
 const DEFAULT_TRACKS = [
@@ -58,20 +58,28 @@ let visualizerAnimationId = null;
 // Initialize State from LocalStorage
 function initStorage() {
   try {
+    // Clear all legacy storage keys so older cached versions don't overwrite new data
+    [
+      'prodbymdotty_profile_config',
+      'prodbymdotty_profile_config_v2',
+      'prodbymdotty_profile_config_v3',
+      'mdotty_profile_config',
+    ].forEach((k) => {
+      try {
+        localStorage.removeItem(k);
+      } catch (e) {}
+    });
+
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       const parsed = JSON.parse(saved);
       appState = { ...appState, ...parsed };
-      // Always enforce only the Johnny Slime track
-      appState.tracks = DEFAULT_TRACKS;
-      if (
-        !appState.bioText ||
-        appState.bioText.includes('Prod for RoddyTreyy') ||
-        appState.bioText.includes('Tyree Da GunMan')
-      ) {
-        appState.bioText = DEFAULT_CONFIG.bioText;
-      }
     }
+
+    // Always strictly enforce the single Johnny Slime track and correct bioText
+    appState.tracks = DEFAULT_TRACKS;
+    appState.bioText = DEFAULT_CONFIG.bioText;
+    appState.avatarUrl = DEFAULT_CONFIG.avatarUrl;
 
     // Handle view count increment per browser session
     const hasVisited = sessionStorage.getItem(SESSION_VIEW_KEY);
