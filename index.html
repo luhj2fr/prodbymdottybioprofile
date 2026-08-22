@@ -3,18 +3,657 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>prodbymdotty | Official Profile</title>
-    <meta name="description" content="Official music producer profile for prodbymdotty." />
-    <meta property="og:title" content="prodbymdotty" />
+    <title>prodbymdotty | Official Profile & Audio</title>
+    <meta name="description" content="Official music producer profile for prodbymdotty. Beats, audio player, credits, and links." />
+    
+    <!-- Open Graph / Meta -->
+    <meta property="og:title" content="prodbymdotty | Music Producer" />
     <meta property="og:description" content="Official music producer profile for prodbymdotty." />
     <meta property="og:type" content="website" />
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Montserrat:wght@400;500;600;700;800&family=Orbitron:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rubik+Glitch&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Montserrat:wght@400;500;600;700;800&family=Orbitron:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Rubik+Glitch&family=Silkscreen:wght@400;700&family=Space+Grotesk:wght@500;700&family=Syne:wght@700;800&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN for 100% standalone GitHub Pages compatibility -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              syne: ['Syne', 'sans-serif'],
+              sans: ['Plus Jakarta Sans', 'sans-serif'],
+              mono: ['Space Grotesk', 'monospace'],
+            },
+          },
+        },
+      }
+    </script>
+    
+    <style>
+      /* Custom Scanlines & CRT */
+      .scanlines-overlay {
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+        background-size: 100% 4px;
+      }
+      
+      .vignette-overlay {
+        background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.85) 100%);
+      }
+
+      /* Animated Title Styles */
+      .anim-subtle-glow {
+        color: #ffffff;
+        text-shadow: 0 0 12px rgba(255, 255, 255, 0.4), 0 0 25px rgba(34, 211, 238, 0.3);
+      }
+      
+      .anim-smooth-gradient {
+        background: linear-gradient(135deg, #67e8f9, #ffffff, #e879f9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 14px rgba(34, 211, 238, 0.35));
+      }
+      
+      .anim-minimal-clean {
+        color: #f8fafc;
+        letter-spacing: -0.03em;
+      }
+
+      .anim-wave-float span {
+        display: inline-block;
+        animation: waveFloat 2.4s ease-in-out infinite;
+      }
+      
+      @keyframes waveFloat {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-5px); color: #38bdf8; }
+      }
+
+      .anim-glitch-wavy {
+        position: relative;
+        color: #ffffff;
+        text-shadow: 2px 0 #06b6d4, -2px 0 #ec4899;
+        animation: glitchAnim 3s infinite alternate;
+      }
+
+      @keyframes glitchAnim {
+        0% { transform: translate(0); }
+        20% { transform: translate(-1px, 1px); }
+        40% { transform: translate(-1px, -1px); }
+        60% { transform: translate(1px, 1px); }
+        80% { transform: translate(1px, -1px); }
+        100% { transform: translate(0); }
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.3);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255,0.15);
+        border-radius: 4px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(255,255,255,0.3);
+      }
+
+      /* Range Slider Styling */
+      input[type=range] {
+        accent-color: #22d3ee;
+      }
+    </style>
   </head>
-  <body class="bg-black text-white selection:bg-white/20 selection:text-white antialiased overflow-x-hidden">
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+  <body class="bg-black text-white selection:bg-white/20 selection:text-white antialiased overflow-x-hidden min-h-screen relative flex flex-col items-center justify-center p-4">
+
+    <!-- Background Media (Video + Fallback Image + Overlays) -->
+    <div id="bg-container" class="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
+      <video
+        id="bg-video"
+        src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-42173-large.mp4"
+        autoplay
+        loop
+        muted
+        playsinline
+        class="w-full h-full object-cover scale-105 transition-all duration-700 ease-out"
+        style="filter: brightness(0.85) blur(0px) contrast(1.15) grayscale(0.85);"
+      ></video>
+      <div
+        id="bg-image-fallback"
+        class="hidden absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat scale-105"
+        style="background-image: url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1920&q=80'); filter: brightness(0.85) grayscale(0.85);"
+      ></div>
+
+      <!-- Scanlines & Vignette -->
+      <div id="bg-scanlines" class="absolute inset-0 w-full h-full scanlines-overlay opacity-30 pointer-events-none"></div>
+      <div id="bg-vignette" class="absolute inset-0 w-full h-full vignette-overlay opacity-75 pointer-events-none"></div>
+    </div>
+
+    <!-- Top Controls Bar -->
+    <header class="fixed top-0 left-0 right-0 p-4 sm:p-6 flex items-center justify-between pointer-events-none z-30">
+      <!-- Volume & Sound Controls -->
+      <div class="relative pointer-events-auto flex items-center gap-2">
+        <button
+          id="btn-volume-toggle"
+          class="w-10 h-10 rounded-xl bg-[#0a0a0e]/60 hover:bg-white/10 backdrop-blur-xl border border-white/15 text-white/80 hover:text-white flex items-center justify-center transition-all shadow-xl active:scale-95"
+          title="Toggle Volume"
+        >
+          <svg id="icon-volume-high" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+          </svg>
+          <svg id="icon-volume-muted" class="w-4 h-4 hidden text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>
+          </svg>
+        </button>
+
+        <!-- Hover Volume Popout Slider -->
+        <div id="volume-slider-box" class="hidden sm:flex items-center gap-2 bg-[#0a0a0e]/60 backdrop-blur-xl border border-white/15 px-3 py-2 rounded-xl">
+          <input
+            id="volume-slider"
+            type="range"
+            min="0"
+            max="1"
+            step="0.05"
+            value="0.8"
+            class="w-20 h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer"
+          />
+        </div>
+      </div>
+
+      <!-- Right Top Tools: Fullscreen + Owner Lock + Customize Button -->
+      <div class="pointer-events-auto flex items-center gap-2.5">
+        <!-- Fullscreen -->
+        <button
+          id="btn-fullscreen"
+          class="w-10 h-10 rounded-xl bg-[#0a0a0e]/60 hover:bg-white/10 backdrop-blur-xl border border-white/15 text-white/80 hover:text-white flex items-center justify-center transition-all shadow-xl active:scale-95"
+          title="Fullscreen"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+          </svg>
+        </button>
+
+        <!-- Owner Lock/Unlock -->
+        <button
+          id="btn-owner-auth"
+          class="w-10 h-10 rounded-xl bg-[#0a0a0e]/60 hover:bg-cyan-500/20 backdrop-blur-xl border border-white/15 hover:border-cyan-400/40 text-white/70 hover:text-cyan-300 flex items-center justify-center transition-all shadow-xl active:scale-95"
+          title="Owner Edit Access (PIN: 1234)"
+        >
+          <svg id="icon-lock" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+          </svg>
+          <svg id="icon-unlock" class="w-4 h-4 hidden text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"/>
+          </svg>
+        </button>
+
+        <!-- Customize Button (Visible when unlocked) -->
+        <button
+          id="btn-open-customizer"
+          class="hidden flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black font-bold text-xs hover:opacity-95 transition-all shadow-[0_0_20px_rgba(34,211,238,0.35)] active:scale-95"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/>
+          </svg>
+          <span class="hidden sm:inline">Customize</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="w-full max-w-xl mx-auto flex flex-col items-center gap-3.5 z-10 my-auto py-10">
+
+      <!-- Profile Glass Card -->
+      <div 
+        id="profile-card"
+        class="w-full relative rounded-3xl p-6 sm:p-8 flex flex-col items-center text-center backdrop-blur-xl border border-white/10 shadow-2xl transition-all duration-300 overflow-hidden bg-black/45"
+      >
+        <!-- Subtle Radiant Ambient Glow -->
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-64 h-64 rounded-full pointer-events-none opacity-25 blur-3xl bg-gradient-to-tr from-fuchsia-600 via-purple-600 to-cyan-500"></div>
+
+        <!-- Music Producer Status Pill Badge -->
+        <div class="inline-flex items-center gap-1.5 mb-4 px-3.5 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold uppercase tracking-[0.25em] text-cyan-300 shadow-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+          <span id="card-status-text">Music Producer</span>
+        </div>
+
+        <!-- Circular Avatar with Gradient Ring -->
+        <div id="avatar-container" class="relative mb-4 group cursor-pointer">
+          <div class="w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden p-[2px] bg-gradient-to-tr from-fuchsia-500 to-cyan-400 relative transition-transform duration-300 group-hover:scale-105 shadow-[0_0_30px_rgba(217,70,239,0.35)]">
+            <div class="w-full h-full rounded-full overflow-hidden bg-black/80 flex items-center justify-center">
+              <img
+                id="avatar-img"
+                src="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&q=80"
+                alt="prodbymdotty"
+                class="w-full h-full object-cover rounded-full"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Animated Username Title -->
+        <div class="mb-2">
+          <h1
+            id="username-display"
+            class="font-syne font-extrabold tracking-tight text-3xl sm:text-4xl anim-subtle-glow"
+          >
+            prodbymdotty
+          </h1>
+        </div>
+
+        <!-- Producer Badges / Pills -->
+        <div id="badges-container" class="flex flex-wrap items-center justify-center gap-2 mb-4">
+          <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-xs font-semibold">
+            <span>✨ Producer</span>
+          </div>
+          <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/30 text-fuchsia-300 text-xs font-semibold">
+            <span>🔥 808 Specialist</span>
+          </div>
+        </div>
+
+        <!-- Bio Description -->
+        <p id="bio-display" class="text-gray-300 text-sm sm:text-base font-normal max-w-md leading-relaxed mb-6 select-text">
+          Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more
+        </p>
+
+        <!-- Social Icons Row -->
+        <div id="socials-container" class="flex items-center justify-center gap-3.5 mb-6">
+          <!-- YouTube -->
+          <a
+            href="https://youtube.com/@prodbymdotty"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2.5 rounded-full bg-white/5 hover:bg-red-500/20 text-white/80 hover:text-red-400 border border-white/10 hover:border-red-500/40 transition-all hover:scale-110"
+            title="YouTube Channel"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+            </svg>
+          </a>
+
+          <!-- Discord -->
+          <button
+            id="btn-discord"
+            class="p-2.5 rounded-full bg-white/5 hover:bg-indigo-500/20 text-white/80 hover:text-indigo-400 border border-white/10 hover:border-indigo-500/40 transition-all hover:scale-110 relative"
+            title="Discord: prodbymdotty (Click to Copy)"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994.021-.041.001-.09-.041-.106a13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.929 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.894.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.028zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
+            </svg>
+          </button>
+
+          <!-- Instagram -->
+          <a
+            href="https://instagram.com/prodbymdotty"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2.5 rounded-full bg-white/5 hover:bg-pink-500/20 text-white/80 hover:text-pink-400 border border-white/10 hover:border-pink-500/40 transition-all hover:scale-110"
+            title="Instagram"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+            </svg>
+          </a>
+
+          <!-- Spotify -->
+          <a
+            href="https://spotify.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2.5 rounded-full bg-white/5 hover:bg-emerald-500/20 text-white/80 hover:text-emerald-400 border border-white/10 hover:border-emerald-500/40 transition-all hover:scale-110"
+            title="Spotify"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.494 17.306c-.216.353-.675.466-1.028.25-2.816-1.721-6.36-2.111-10.536-1.157-.403.093-.804-.158-.897-.561-.093-.404.158-.804.561-.897 4.571-1.045 8.492-.595 11.65 1.337.353.216.466.675.25 1.028zm1.467-3.26c-.272.443-.852.585-1.295.312-3.224-1.982-8.138-2.555-11.95-1.397-.497.151-1.028-.135-1.179-.632-.151-.498.135-1.028.632-1.179 4.359-1.323 9.774-.683 13.48 1.595.443.273.585.853.312 1.301zm.127-3.393C15.228 8.358 8.868 8.147 5.163 9.272c-.6.182-1.233-.16-1.415-.76-.182-.6.16-1.233.76-1.415 4.257-1.292 11.285-1.045 15.728 1.593.54.321.718 1.02.397 1.56-.321.54-1.02.718-1.545.403z"/>
+            </svg>
+          </a>
+
+          <!-- SoundCloud -->
+          <a
+            href="https://soundcloud.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2.5 rounded-full bg-white/5 hover:bg-orange-500/20 text-white/80 hover:text-orange-400 border border-white/10 hover:border-orange-500/40 transition-all hover:scale-110"
+            title="SoundCloud"
+          >
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M11.56 8.87V17h8.76c2.03 0 3.68-1.65 3.68-3.68 0-1.94-1.5-3.53-3.41-3.67-.34-2.88-2.79-5.11-5.77-5.11-1.21 0-2.34.37-3.26 1.01v3.32zm-2.02 8.13V9.82c-.22-.38-.5-.73-.83-1.03v8.21h.83zm-1.89 0V9.45c-.26-.14-.54-.25-.83-.33v7.88h.83zm-1.89 0v-7.4c-.27-.03-.55-.04-.83-.02v7.42h.83zm-1.89 0v-7.14c-.28.05-.56.13-.83.24v6.9h.83zm-1.89 0v-6.32c-.28.17-.55.37-.83.61v5.71h.83zm-1.89 0v-4.99c-.3.33-.57.71-.83 1.13v3.86h.83z"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Real-time View Counter & Quick Footer -->
+        <div class="w-full flex items-center justify-between text-xs text-white/50 pt-3 border-t border-white/10">
+          <div class="flex items-center gap-2 font-mono text-[11px] bg-white/5 px-3 py-1 rounded-full border border-white/10 text-cyan-300/90 shadow-sm">
+            <svg class="w-3.5 h-3.5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+            </svg>
+            <span id="view-counter-text">12 views</span>
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" title="Real-time synced"></span>
+          </div>
+
+          <div class="text-[11px] text-white/40 font-mono">
+            prodbymdotty
+          </div>
+        </div>
+      </div>
+
+      <!-- Integrated Music Player & Real-Time Waveform Visualizer -->
+      <div 
+        id="audio-player-card"
+        class="w-full relative rounded-3xl p-5 sm:p-6 flex flex-col gap-4 backdrop-blur-xl border border-white/10 shadow-2xl bg-black/45"
+      >
+        <!-- Top Track Info & Visualizer Canvas -->
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3 min-w-0">
+            <!-- Vinyl / Disc Spinner -->
+            <div id="disc-spinner" class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-cyan-500/20 to-fuchsia-500/20 border border-white/15 flex items-center justify-center flex-shrink-0 relative overflow-hidden">
+              <svg class="w-6 h-6 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/>
+              </svg>
+            </div>
+
+            <div class="min-w-0">
+              <h2 id="current-track-title" class="font-bold text-sm sm:text-base text-white truncate">
+                Midnight Drive (Trap Beat)
+              </h2>
+              <p id="current-track-artist" class="text-xs text-white/50 truncate font-mono">
+                prodbymdotty
+              </p>
+            </div>
+          </div>
+
+          <!-- Dynamic Audio Visualizer Canvas -->
+          <canvas id="visualizer-canvas" width="120" height="36" class="h-9 w-24 sm:w-28 rounded-lg bg-white/5 border border-white/10"></canvas>
+        </div>
+
+        <!-- Progress Scrubber -->
+        <div class="space-y-1.5">
+          <div id="progress-bar-container" class="relative w-full h-2 bg-white/10 hover:h-2.5 rounded-full overflow-hidden cursor-pointer transition-all">
+            <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 w-0 transition-[width] duration-100"></div>
+          </div>
+          <div class="flex justify-between text-[10px] font-mono text-white/50">
+            <span id="time-current">0:00</span>
+            <span id="time-duration">2:14</span>
+          </div>
+        </div>
+
+        <!-- Audio Controls (Prev, Play/Pause, Next, Loop, Shuffle, Playlist Toggle) -->
+        <div class="flex items-center justify-between pt-1">
+          <!-- Shuffle -->
+          <button
+            id="btn-shuffle"
+            class="p-2 rounded-xl text-white/40 hover:text-white transition-colors"
+            title="Shuffle"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H4a2 2 0 01-2-2V6a2 2 0 012-2h4m8 0h4a2 2 0 012 2v8a2 2 0 01-2 2h-4m-6-4l4 4m0 0l-4 4m4-4H8m8-8l-4-4m0 0l4-4m-4 4h8"/>
+            </svg>
+          </button>
+
+          <!-- Prev Track -->
+          <button
+            id="btn-prev-track"
+            class="p-2 rounded-xl text-white/70 hover:text-white transition-colors hover:scale-110 active:scale-95"
+            title="Previous Track"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.334 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"/>
+            </svg>
+          </button>
+
+          <!-- Main Play / Pause Circle Button -->
+          <button
+            id="btn-play-pause"
+            class="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black flex items-center justify-center shadow-[0_0_20px_rgba(34,211,238,0.4)] hover:scale-105 active:scale-95 transition-all"
+            title="Play / Pause"
+          >
+            <svg id="icon-play" class="w-5 h-5 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+            <svg id="icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+            </svg>
+          </button>
+
+          <!-- Next Track -->
+          <button
+            id="btn-next-track"
+            class="p-2 rounded-xl text-white/70 hover:text-white transition-colors hover:scale-110 active:scale-95"
+            title="Next Track"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z"/>
+            </svg>
+          </button>
+
+          <!-- Loop Mode -->
+          <button
+            id="btn-loop"
+            class="p-2 rounded-xl text-cyan-400 transition-colors"
+            title="Loop All"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </button>
+
+          <!-- Tracks Drawer Toggle -->
+          <button
+            id="btn-playlist-toggle"
+            class="p-2 rounded-xl text-white/50 hover:text-white transition-colors"
+            title="Tracklist"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Playlist Accordion -->
+        <div id="playlist-drawer" class="hidden flex-col gap-1.5 pt-2 border-t border-white/10">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-white/50 pb-1">
+            Producer Beat Tape (4 Tracks)
+          </div>
+          <div id="playlist-items" class="flex flex-col gap-1 max-h-48 overflow-y-auto pr-1"></div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Hidden HTML5 Audio Element -->
+    <audio id="main-audio" preload="auto"></audio>
+
+    <!-- Discord Copy Toast Notification -->
+    <div id="toast-notify" class="fixed bottom-6 z-50 bg-[#121218] border border-cyan-400/40 text-cyan-300 text-xs px-4 py-2 rounded-full shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-2">
+      <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+      </svg>
+      <span id="toast-text">Discord Tag copied to clipboard!</span>
+    </div>
+
+    <!-- OWNER AUTH PIN MODAL -->
+    <div id="modal-auth" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+      <div class="relative w-full max-w-sm rounded-3xl bg-[#0e0e14] border border-white/15 p-6 shadow-2xl text-white">
+        <button id="btn-close-auth" class="absolute top-4 right-4 p-2 text-white/50 hover:text-white rounded-full">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <div id="auth-locked-view" class="space-y-4">
+          <div class="w-12 h-12 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 flex items-center justify-center mx-auto shadow-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+          </div>
+          <div class="text-center">
+            <h3 class="text-base font-bold text-white">Owner Access Lock</h3>
+            <p class="text-xs text-gray-400 mt-1">Enter your PIN to unlock profile customization.</p>
+          </div>
+          <div class="space-y-2">
+            <input
+              id="input-owner-pin"
+              type="password"
+              placeholder="Enter Owner PIN (e.g. 1234)"
+              class="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-white/15 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400"
+            />
+            <div id="auth-error-msg" class="hidden text-xs text-rose-400 bg-rose-500/10 px-3 py-1.5 rounded-lg border border-rose-500/20">
+              Incorrect PIN. Default PIN is 1234.
+            </div>
+          </div>
+          <div class="flex gap-2 pt-1">
+            <button id="btn-cancel-auth" class="flex-1 py-2.5 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-semibold text-gray-300">
+              Cancel
+            </button>
+            <button id="btn-submit-pin" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black text-xs font-bold shadow-lg shadow-cyan-500/20">
+              Unlock
+            </button>
+          </div>
+          <p class="text-[11px] text-center text-gray-500 font-mono">
+            Default Owner PIN: <span class="text-cyan-400 font-bold">1234</span>
+          </p>
+        </div>
+
+        <div id="auth-unlocked-view" class="hidden text-center space-y-4 py-2">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto shadow-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-white">Owner Mode Active</h3>
+            <p class="text-xs text-gray-400 mt-1">You have full permission to customize tracks, styling, and info.</p>
+          </div>
+          <div class="flex gap-2 pt-2">
+            <button id="btn-relock" class="flex-1 py-2.5 px-4 rounded-xl bg-white/10 hover:bg-rose-500/20 hover:text-rose-300 border border-white/10 text-xs font-semibold">
+              Lock Page for Visitors
+            </button>
+            <button id="btn-go-customize" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black text-xs font-bold">
+              Open Customizer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN CUSTOMIZER DRAWER / MODAL -->
+    <div id="modal-customizer" class="fixed inset-0 z-50 hidden items-center justify-center p-4 sm:p-6 bg-black/85 backdrop-blur-lg">
+      <div class="relative w-full max-w-2xl max-h-[90vh] rounded-3xl bg-[#0c0c12] border border-white/15 shadow-2xl flex flex-col overflow-hidden text-white">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between p-5 sm:p-6 border-b border-white/10">
+          <div>
+            <h3 class="text-lg font-bold text-white">Profile & Player Customizer</h3>
+            <p class="text-xs text-white/50">Edit typography, background visuals, tracks, and owner settings.</p>
+          </div>
+          <button id="btn-close-customizer" class="p-2 text-white/50 hover:text-white rounded-full">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Customizer Tabs Nav -->
+        <div class="flex border-b border-white/10 bg-white/5 overflow-x-auto text-xs font-semibold">
+          <button class="custom-tab-btn py-3 px-4 text-cyan-300 border-b-2 border-cyan-400" data-tab="tab-title">Title Effect</button>
+          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-bg">Background</button>
+          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-audio">Tracks</button>
+          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-profile">Profile & Bio</button>
+          <button class="custom-tab-btn py-3 px-4 text-white/60 hover:text-white" data-tab="tab-security">Owner & Views</button>
+        </div>
+
+        <!-- Tabs Content Body -->
+        <div class="p-5 sm:p-6 overflow-y-auto space-y-6 flex-1 text-sm">
+          
+          <!-- TAB 1: Title Effects -->
+          <div id="tab-title" class="custom-tab-panel space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Username Text</label>
+              <input id="cfg-username" type="text" value="prodbymdotty" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white font-syne font-bold">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Animation & Glow Style</label>
+              <select id="cfg-title-anim" class="w-full px-3.5 py-2.5 rounded-xl bg-black/60 border border-white/15 text-white">
+                <option value="subtle-glow" selected>Subtle Luminous Glow (Simple & Sleek)</option>
+                <option value="smooth-gradient">Smooth Gradient Shimmer (Cyan & Magenta)</option>
+                <option value="minimal-clean">Minimal & Clean</option>
+                <option value="wave-float">Wave Floating</option>
+                <option value="glitch-wavy">Glitch & Wavy</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- TAB 2: Background -->
+          <div id="tab-bg" class="custom-tab-panel hidden space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Background Video/Image URL</label>
+              <input id="cfg-bg-url" type="text" value="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-42173-large.mp4" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white text-xs font-mono">
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 pt-2">
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1">Brightness</label>
+                <input id="cfg-bg-brightness" type="range" min="0.2" max="1.2" step="0.05" value="0.85" class="w-full">
+              </div>
+              <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-1">Blur</label>
+                <input id="cfg-bg-blur" type="range" min="0" max="15" step="1" value="0" class="w-full">
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: Tracks -->
+          <div id="tab-audio" class="custom-tab-panel hidden space-y-4">
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+              <p class="text-xs font-bold uppercase tracking-wider text-white">Add Custom Track</p>
+              <input id="cfg-track-title" type="text" placeholder="Track Title (e.g. Gotham Drill)" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-xs text-white">
+              <input id="cfg-track-url" type="text" placeholder="Audio URL (.mp3 or stream)" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-xs text-white font-mono">
+              <button id="btn-add-track" class="w-full py-2 bg-white/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 rounded-xl font-bold text-xs">
+                + Add Track to Beat Tape
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 4: Profile & Bio -->
+          <div id="tab-profile" class="custom-tab-panel hidden space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Avatar Picture URL</label>
+              <input id="cfg-avatar-url" type="text" value="https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400&q=80" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white text-xs font-mono">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-white/70 mb-2">Bio Text</label>
+              <textarea id="cfg-bio" rows="3" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white text-xs leading-relaxed">Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more</textarea>
+            </div>
+          </div>
+
+          <!-- TAB 5: Security & Views -->
+          <div id="tab-security" class="custom-tab-panel hidden space-y-4">
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white">Owner Passcode PIN</label>
+              <p class="text-xs text-white/60">Only users with this PIN can unlock editor controls.</p>
+              <input id="cfg-admin-pin" type="text" value="1234" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white font-mono text-sm">
+            </div>
+
+            <div class="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+              <label class="block text-xs font-bold uppercase tracking-wider text-white">Realtime Views Count</label>
+              <p class="text-xs text-white/60">Total profile views automatically increment and sync across tabs.</p>
+              <input id="cfg-views-count" type="number" value="12" class="w-full px-3.5 py-2 rounded-xl bg-black/60 border border-white/15 text-white font-mono text-sm">
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="p-4 sm:p-5 border-t border-white/10 bg-black/40 flex justify-between items-center">
+          <button id="btn-reset-defaults" class="text-xs text-rose-400 hover:underline">Reset Defaults</button>
+          <button id="btn-save-customizer" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-400 to-fuchsia-500 text-black font-bold text-xs shadow-lg shadow-cyan-500/20">
+            Save & Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Standalone Script for GitHub Pages & Vanilla Execution -->
+    <script src="./app.js"></script>
   </body>
 </html>
-

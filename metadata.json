@@ -2,5 +2,7 @@
   "name": "prodbymdotty Bio Profile & Audio Player",
   "description": "Aesthetic producer profile page with custom animated username typography, background video & audio support, seamless track management, and social integrations.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }
