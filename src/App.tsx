@@ -100,12 +100,17 @@ export default function App() {
         if (!hasSessionVisited) {
           sessionStorage.setItem(SESSION_VIEW_KEY, 'true');
         }
-        return {
+        const state: ProfileConfig = {
           ...INITIAL_CONFIG,
           ...parsed,
+          tracks: INITIAL_CONFIG.tracks,
           viewsCount: newCount,
           requireClickToEnter: false,
         };
+        if (!state.bioText || state.bioText.includes('Prod for RoddyTreyy') || state.bioText.includes('Tyree Da GunMan')) {
+          state.bioText = INITIAL_CONFIG.bioText;
+        }
+        return state;
       }
     } catch (e) {
       console.warn('LocalStorage load error:', e);
@@ -266,12 +271,8 @@ export default function App() {
       id="profile-app-root"
       className="relative min-h-screen w-full flex flex-col items-center justify-center overflow-x-hidden overflow-y-auto bg-black font-sans select-none text-white py-12 px-4"
     >
-      {/* Dynamic Background Media (Video clip or Image with dark aerial aesthetic) */}
+      {/* Dynamic Interactive Mouse-Tracking Gradient Background */}
       <BackgroundMedia
-        backgroundType={config.backgroundType}
-        backgroundUrl={config.backgroundUrl}
-        bgBrightness={config.bgBrightness}
-        bgBlur={config.bgBlur}
         enableScanlines={config.enableScanlines}
         enableVignette={config.enableVignette}
         enableNoise={config.enableNoise}

@@ -18,6 +18,7 @@ export interface Track {
   artist: string;
   src: string;
   duration: number; // in seconds
+  startOffset?: number; // trim offset in seconds
   coverArt?: string;
   isUploaded?: boolean;
   isCustomUrl?: boolean;

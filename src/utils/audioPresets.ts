@@ -7,7 +7,8 @@ export const DEFAULT_TRACKS: Track[] = [
     title: 'Johnny Slime - EBK/Allegations',
     artist: 'prodbymdotty',
     src: 'https://cdn.discordapp.com/attachments/1455875593383182496/1540578126755659849/Johnny_Slime_-_EBKAllegations_Official_Music_Video_shot_by_shotbyvictorr.mp3?ex=6a8a76af&is=6a89252f&hm=d9190bc6e1b5039fb9a82ad78755efb7de2e3bc8b9338b7adf6fac1bf7be7fdf&',
-    duration: 168,
+    duration: 165,
+    startOffset: 3,
     coverArt: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=300&q=80',
   },
 ];

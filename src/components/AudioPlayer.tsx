@@ -102,6 +102,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   }, [volume, isMuted]);
 
   // Play / Pause toggle
+  const offset = currentTrack?.startOffset || 0;
+
   const togglePlay = async () => {
     if (!audioRef.current) return;
     if (isPlaying) {
@@ -109,6 +111,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
       setIsPlaying(false);
     } else {
       try {
+        if (audioRef.current.currentTime < offset) {
+          audioRef.current.currentTime = offset;
+        }
         await audioRef.current.play();
         setIsPlaying(true);
       } catch (e) {
@@ -122,7 +127,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const handleNext = () => {
     if (tracks.length <= 1) {
       if (audioRef.current) {
-        audioRef.current.currentTime = 0;
+        audioRef.current.currentTime = offset;
+        setCurrentTime(0);
         audioRef.current.play();
       }
       return;
@@ -141,8 +147,9 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
 
   // Previous Track
   const handlePrev = () => {
-    if (audioRef.current && audioRef.current.currentTime > 3) {
-      audioRef.current.currentTime = 0;
+    if (audioRef.current && currentTime > 3) {
+      audioRef.current.currentTime = offset;
+      setCurrentTime(0);
       return;
     }
 
@@ -155,7 +162,8 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
   const handleEnded = () => {
     if (loopMode === 'one') {
       if (audioRef.current) {
-        audioRef.current.currentTime = 0;
+        audioRef.current.currentTime = offset;
+        setCurrentTime(0);
         audioRef.current.play();
       }
     } else if (loopMode === 'all') {
@@ -177,7 +185,7 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
     const clickX = e.clientX - rect.left;
     const ratio = Math.max(0, Math.min(1, clickX / rect.width));
     const targetTime = ratio * (duration || 1);
-    audioRef.current.currentTime = targetTime;
+    audioRef.current.currentTime = targetTime + offset;
     setCurrentTime(targetTime);
   };
 
@@ -237,11 +245,14 @@ export const AudioPlayer: React.FC<AudioPlayerProps> = ({
         ref={audioRef}
         src={audioSrc || undefined}
         onTimeUpdate={() => {
-          if (audioRef.current) setCurrentTime(audioRef.current.currentTime);
+          if (audioRef.current) {
+            setCurrentTime(Math.max(0, audioRef.current.currentTime - offset));
+          }
         }}
         onLoadedMetadata={() => {
           if (audioRef.current) {
-            setDuration(audioRef.current.duration || currentTrack?.duration || 135);
+            const rawDur = audioRef.current.duration;
+            setDuration(rawDur ? Math.max(1, rawDur - offset) : (currentTrack?.duration || 165));
           }
         }}
         onEnded={handleEnded}

@@ -111,27 +111,32 @@
   </head>
   <body class="bg-black text-white selection:bg-white/20 selection:text-white antialiased overflow-x-hidden min-h-screen relative flex flex-col items-center justify-center p-4">
 
-    <!-- Background Media (Video + Fallback Image + Overlays) -->
-    <div id="bg-container" class="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0">
-      <video
-        id="bg-video"
-        src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-42173-large.mp4"
-        autoplay
-        loop
-        muted
-        playsinline
-        class="w-full h-full object-cover scale-105 transition-all duration-700 ease-out"
-        style="filter: brightness(0.85) blur(0px) contrast(1.15) grayscale(0.85);"
-      ></video>
+    <!-- Interactive Mouse-Tracking Gradient Background -->
+    <div id="bg-container" class="fixed inset-0 w-full h-full overflow-hidden pointer-events-none z-0 bg-[#07070b]">
+      <!-- Dynamic mouse-following radial glows -->
       <div
-        id="bg-image-fallback"
-        class="hidden absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat scale-105"
-        style="background-image: url('https://images.unsplash.com/photo-1519501025264-65ba15a82390?w=1920&q=80'); filter: brightness(0.85) grayscale(0.85);"
+        id="bg-interactive-gradient"
+        class="absolute inset-0 w-full h-full transition-transform duration-100 ease-out"
+        style="background: radial-gradient(800px circle at 50% 50%, rgba(217, 70, 239, 0.25), transparent 60%), radial-gradient(900px circle at 80% 20%, rgba(34, 211, 238, 0.22), transparent 65%), radial-gradient(1000px circle at 20% 80%, rgba(99, 102, 241, 0.25), transparent 70%);"
       ></div>
 
-      <!-- Scanlines & Vignette -->
-      <div id="bg-scanlines" class="absolute inset-0 w-full h-full scanlines-overlay opacity-30 pointer-events-none"></div>
-      <div id="bg-vignette" class="absolute inset-0 w-full h-full vignette-overlay opacity-75 pointer-events-none"></div>
+      <!-- Fluid Floating Glow Orbs with Mouse Parallax -->
+      <div
+        id="glow-orb-1"
+        class="absolute w-[500px] h-[500px] rounded-full bg-fuchsia-600/20 blur-[130px] -top-20 -left-20 pointer-events-none transition-transform duration-300 ease-out will-change-transform"
+      ></div>
+      <div
+        id="glow-orb-2"
+        class="absolute w-[600px] h-[600px] rounded-full bg-cyan-500/18 blur-[140px] -bottom-32 -right-32 pointer-events-none transition-transform duration-500 ease-out will-change-transform"
+      ></div>
+      <div
+        id="glow-orb-3"
+        class="absolute w-[450px] h-[450px] rounded-full bg-indigo-600/18 blur-[120px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-700 ease-out will-change-transform"
+      ></div>
+
+      <!-- Subtle Texture & Vignette Overlay -->
+      <div id="bg-scanlines" class="absolute inset-0 w-full h-full scanlines-overlay opacity-20 pointer-events-none"></div>
+      <div id="bg-vignette" class="absolute inset-0 w-full h-full vignette-overlay opacity-80 pointer-events-none"></div>
     </div>
 
     <!-- Top Controls Bar -->
@@ -234,7 +239,7 @@
 
         <!-- Bio Description -->
         <p id="bio-display" class="text-gray-300 text-sm sm:text-base font-normal max-w-md leading-relaxed mb-6 select-text">
-          Prod for RoddyTreyy, Co Splatt, Vinooo, Merck, SRT Len, BabyyBumpstock, Tyree Da GunMan, LuhBody, & more
+          💿 : Merck, Lil Rae, Gravon, Johnny Slime, Duoto, Roddy Treyy, Babyy Bumpstock, Corey Cartel, Lil Moneyy, NSG Feezy, PGF Omerta, TreTooWavy,+ More
         </p>
 
         <!-- Social Icons Row -->

@@ -12,7 +12,8 @@ const DEFAULT_TRACKS = [
     id: 't1',
     title: 'Johnny Slime - EBK/Allegations',
     artist: 'prodbymdotty',
-    duration: 168,
+    duration: 165,
+    startOffset: 3,
     bpm: 140,
     url: 'https://cdn.discordapp.com/attachments/1455875593383182496/1540578126755659849/Johnny_Slime_-_EBKAllegations_Official_Music_Video_shot_by_shotbyvictorr.mp3?ex=6a8a76af&is=6a89252f&hm=d9190bc6e1b5039fb9a82ad78755efb7de2e3bc8b9338b7adf6fac1bf7be7fdf&',
   },
@@ -30,6 +31,11 @@ const DEFAULT_CONFIG = {
   adminPin: '011511',
   tracks: DEFAULT_TRACKS,
 };
+
+// Helper to get start offset (in seconds) for audio trimming
+function getTrackOffset(track) {
+  return track && track.startOffset !== undefined ? track.startOffset : 3;
+}
 
 // Application State
 let appState = {
@@ -56,9 +62,14 @@ function initStorage() {
     if (saved) {
       const parsed = JSON.parse(saved);
       appState = { ...appState, ...parsed };
-      // Ensure if tracks were from an older schema or empty title, fallback to default track
-      if (!appState.tracks || appState.tracks.length === 0 || !appState.tracks[0].title) {
-        appState.tracks = DEFAULT_TRACKS;
+      // Always enforce only the Johnny Slime track
+      appState.tracks = DEFAULT_TRACKS;
+      if (
+        !appState.bioText ||
+        appState.bioText.includes('Prod for RoddyTreyy') ||
+        appState.bioText.includes('Tyree Da GunMan')
+      ) {
+        appState.bioText = DEFAULT_CONFIG.bioText;
       }
     }
 
@@ -224,7 +235,16 @@ function startBeatEngine() {
   // If track has custom external MP3 url, play via HTML5 Audio element
   const audioEl = document.getElementById('main-audio');
   if (track.url && track.url.trim() !== '') {
-    audioEl.src = track.url;
+    const offset = getTrackOffset(track);
+    const targetSrc = track.url;
+    if (!audioEl.src || !audioEl.src.includes(targetSrc.substring(0, 40))) {
+      audioEl.src = targetSrc;
+      audioEl.currentTime = offset + (appState.currentTime || 0);
+    } else {
+      if (audioEl.currentTime < offset) {
+        audioEl.currentTime = offset + (appState.currentTime || 0);
+      }
+    }
     audioEl.volume = appState.isMuted ? 0 : appState.volume;
     audioEl.play().catch(() => {});
     return;
@@ -242,7 +262,7 @@ function startBeatEngine() {
     currentStep++;
 
     appState.currentTime += stepTimeMs / 1000;
-    const duration = track.duration || 134;
+    const duration = track.duration || 165;
 
     if (appState.currentTime >= duration) {
       if (appState.loopMode === 'one') {
@@ -298,6 +318,12 @@ function handleNextTrack() {
     appState.currentTrackIndex = (appState.currentTrackIndex + 1) % appState.tracks.length;
   }
   appState.currentTime = 0;
+  const audioEl = document.getElementById('main-audio');
+  const track = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
+  const offset = getTrackOffset(track);
+  if (audioEl) {
+    audioEl.currentTime = offset;
+  }
   renderTrackInfo();
   renderPlaylistDrawer();
   if (appState.isPlaying) {
@@ -306,11 +332,17 @@ function handleNextTrack() {
 }
 
 function handlePrevTrack() {
+  const audioEl = document.getElementById('main-audio');
+  const track = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
+  const offset = getTrackOffset(track);
   if (appState.currentTime > 3) {
     appState.currentTime = 0;
+    if (audioEl) audioEl.currentTime = offset;
   } else {
     appState.currentTrackIndex = (appState.currentTrackIndex - 1 + appState.tracks.length) % appState.tracks.length;
     appState.currentTime = 0;
+    const newTrack = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
+    if (audioEl) audioEl.currentTime = getTrackOffset(newTrack);
   }
   renderTrackInfo();
   renderPlaylistDrawer();
@@ -525,27 +557,34 @@ function setupEventListeners() {
   const audioEl = document.getElementById('main-audio');
   if (audioEl) {
     audioEl.addEventListener('timeupdate', () => {
-      appState.currentTime = audioEl.currentTime;
+      const track = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
+      const offset = getTrackOffset(track);
+      appState.currentTime = Math.max(0, audioEl.currentTime - offset);
       updateProgressUI();
     });
     audioEl.addEventListener('loadedmetadata', () => {
       if (audioEl.duration && !isNaN(audioEl.duration)) {
-        const track = appState.tracks[appState.currentTrackIndex];
+        const track = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
         if (track) {
-          track.duration = Math.round(audioEl.duration);
+          const offset = getTrackOffset(track);
+          track.duration = Math.max(1, Math.round(audioEl.duration - offset));
           renderTrackInfo();
         }
       }
     });
     audioEl.addEventListener('ended', () => {
+      const track = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
+      const offset = getTrackOffset(track);
       if (appState.loopMode === 'one') {
-        audioEl.currentTime = 0;
+        audioEl.currentTime = offset;
+        appState.currentTime = 0;
         audioEl.play().catch(() => {});
       } else if (appState.loopMode === 'all') {
         handleNextTrack();
       } else {
         pauseTrack();
         appState.currentTime = 0;
+        audioEl.currentTime = offset;
         updateProgressUI();
       }
     });
@@ -621,12 +660,43 @@ function setupEventListeners() {
     const clickX = e.clientX - rect.left;
     const ratio = Math.max(0, Math.min(1, clickX / rect.width));
     const track = appState.tracks[appState.currentTrackIndex] || DEFAULT_TRACKS[0];
-    appState.currentTime = ratio * (track.duration || 134);
+    const offset = getTrackOffset(track);
+    appState.currentTime = ratio * (track.duration || 165);
     if (track.url && audioEl) {
-      audioEl.currentTime = appState.currentTime;
+      audioEl.currentTime = appState.currentTime + offset;
     }
     updateProgressUI();
   });
+
+  // Interactive Mouse-Tracking Gradient Background
+  const interactiveBg = document.getElementById('bg-interactive-gradient');
+  const orb1 = document.getElementById('glow-orb-1');
+  const orb2 = document.getElementById('glow-orb-2');
+  const orb3 = document.getElementById('glow-orb-3');
+
+  function updateMouseGradient(clientX, clientY) {
+    const xPct = Math.round((clientX / window.innerWidth) * 100);
+    const yPct = Math.round((clientY / window.innerHeight) * 100);
+    const dx = (clientX / window.innerWidth - 0.5) * 70;
+    const dy = (clientY / window.innerHeight - 0.5) * 70;
+
+    if (interactiveBg) {
+      interactiveBg.style.background = `radial-gradient(850px circle at ${xPct}% ${yPct}%, rgba(217, 70, 239, 0.28), transparent 60%), radial-gradient(950px circle at ${100 - xPct}% ${100 - yPct}%, rgba(34, 211, 238, 0.24), transparent 65%), radial-gradient(1000px circle at ${yPct}% ${100 - xPct}%, rgba(99, 102, 241, 0.28), transparent 70%)`;
+    }
+    if (orb1) orb1.style.transform = `translate(${dx * 0.9}px, ${dy * 0.9}px)`;
+    if (orb2) orb2.style.transform = `translate(${-dx * 1.1}px, ${-dy * 1.1}px)`;
+    if (orb3) orb3.style.transform = `translate(${dx * 0.5}px, ${dy * 0.5}px)`;
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    updateMouseGradient(e.clientX, e.clientY);
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if (e.touches && e.touches[0]) {
+      updateMouseGradient(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, { passive: true });
 
   // Discord Copy
   document.getElementById('btn-discord').addEventListener('click', () => {
